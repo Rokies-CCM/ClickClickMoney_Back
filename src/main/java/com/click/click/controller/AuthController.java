@@ -1,9 +1,8 @@
 package com.click.click.controller;
 
 
-import com.click.click.dto.LoginRequest;
-import com.click.click.dto.LoginResponse;
-import com.click.click.dto.RegisterRequest;
+import com.click.click.dto.LoginDTO;
+import com.click.click.dto.RegisterDTO;
 import com.click.click.util.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +21,14 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ApiResponse<String> register(@Valid @RequestBody RegisterRequest request) {
+    public ApiResponse<String> register(@Valid @RequestBody RegisterDTO request) {
         authService.register(request);
         return ApiResponse.ok("registered");
     }
 
 
     @PostMapping("/login")
-    public ApiResponse<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+    public ApiResponse<LoginDTO.LoginResponse> login(@Valid @RequestBody LoginDTO request) {
         return ApiResponse.ok(authService.login(request));
     }
 

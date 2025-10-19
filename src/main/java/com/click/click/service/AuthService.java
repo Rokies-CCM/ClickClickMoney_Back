@@ -1,8 +1,7 @@
 package com.click.click.service;
 
-import com.click.click.dto.LoginRequest;
-import com.click.click.dto.LoginResponse;
-import com.click.click.dto.RegisterRequest;
+import com.click.click.dto.LoginDTO;
+import com.click.click.dto.RegisterDTO;
 import com.click.click.entity.UserEntity;
 import com.click.click.repository.UserRepository;
 import com.click.click.security.jwt.JwtTokenProvider;
@@ -23,7 +22,7 @@ public class AuthService implements UserDetailsService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
-    public void register(RegisterRequest request) {
+    public void register(RegisterDTO request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
         }
@@ -34,14 +33,14 @@ public class AuthService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public LoginResponse login(LoginRequest request) {
+    public LoginDTO.LoginResponse login(LoginDTO request) {
         UserEntity user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new BadCredentialsException("아이디 또는 비밀번호가 올바르지 않습니다."));
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("아이디 또는 비밀번호가 올바르지 않습니다.");
         }
         String jwt = jwtTokenProvider.generateAccessToken(user.getUsername());
-        return LoginResponse.builder().accessToken(jwt).build();
+        return LoginDTO.LoginResponse.builder().accessToken(jwt).build();
     }
 
     @Override

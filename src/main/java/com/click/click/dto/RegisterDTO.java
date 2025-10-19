@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RegisterRequest {
+public class RegisterDTO {
     @NotBlank
     @Size(min = 3, max = 50)
     private String username;
