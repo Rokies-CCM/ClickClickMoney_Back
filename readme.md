@@ -38,7 +38,7 @@ POST /api/ai/consumption
 {
   "question": "이번 달 과소비 구간과 절약팁 알려줘",
   "items": [
-    {"category": "식비", "amount": 24500, "currency": "KRW", "date": "2025-10-18"},
+    {"category": "식비", "amount": 24500, "currency": "KRW"},
     {"category": "교통", "amount": 15000},
     {"category": "쇼핑", "amount": 99000},
     {"category": "식비", "amount": 12000}
