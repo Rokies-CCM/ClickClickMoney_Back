@@ -18,7 +18,7 @@ public class AiController {
     @Value("")
     private String pythonServiceUrl;
 
-    @PostMapping("/consumption")
+    @PostMapping("/llm")
     public ResponseEntity<ConsumptionDTO.ConsumptionResponse> consumption(
             @Validated @RequestBody ConsumptionDTO request) {
 

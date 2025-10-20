@@ -21,27 +21,36 @@ SHOW GRANTS FOR 'click'@'localhost';
 POST /api/auth/register
 ```
 {
-"username":"test",
-"password":"test1234"
+    "username":"test",
+    "password":"test1234"
 }
 ```
 
 POST /api/auth/login
 ```
 {
-"username":"test",
-"password":"test1234"
+    "username":"test",
+    "password":"test1234"
 }
 ```
-POST /api/ai/consumption
+POST /api/ai/llm
 ```
 {
-  "question": "이번 달 과소비 구간과 절약팁 알려줘",
+  "question": "이번 달 과소비 요약 부탁해",
   "items": [
-    {"category": "식비", "amount": 24500, "currency": "KRW"},
-    {"category": "교통", "amount": 15000},
-    {"category": "쇼핑", "amount": 99000},
-    {"category": "식비", "amount": 12000}
+    { "category": "식비",   "amount": 24500, "date": "2025-10-19" },
+    { "category": "교통",   "amount": 15000, "date": "2025-10-20" },
+    { "category": "쇼핑",   "amount": 99000, "date": "2025-10-20" }
   ]
+}
+```
+POST /api/consumption
+```
+{
+    "items": [
+    { "category": "식비",   "amount": 24500, "date": "2025-10-19" },
+    { "category": "교통",   "amount": 15000, "date": "2025-10-20" },
+    { "category": "쇼핑",   "amount": 99000, "date": "2025-10-20" }
+    ]
 }
 ```

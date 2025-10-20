@@ -16,12 +16,13 @@ public class ConsumptionEntity {
     private UserEntity user;
 
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "category_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
     @Column(nullable = false)
     private LocalDate date;
 
     @Column(nullable = false)
-    private Long amount;  // DB BIGINT
+    private Long amount;
 }

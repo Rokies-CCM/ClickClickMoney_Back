@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
-id BIGINT PRIMARY KEY AUTO_INCREMENT,
-username VARCHAR(50) NOT NULL,
-password VARCHAR(100) NOT NULL,
-CONSTRAINT uk_users_username UNIQUE (username)
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    CONSTRAINT uk_users_username UNIQUE (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
