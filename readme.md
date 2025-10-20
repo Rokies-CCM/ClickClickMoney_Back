@@ -44,7 +44,7 @@ POST /api/ai/llm
   ]
 }
 ```
-POST /api/consumption
+POST /api/consumptions/save
 ```
 {
     "items": [
@@ -52,5 +52,63 @@ POST /api/consumption
     { "category": "교통",   "amount": 15000, "date": "2025-10-20" },
     { "category": "쇼핑",   "amount": 99000, "date": "2025-10-20" }
     ]
+}
+```
+
+GET /api/consumption/load
+```
+{
+    "success": true,
+    "message": null,
+    "data": {
+        "content": [
+            {
+                "id": 3,
+                "date": "2025-10-20",
+                "amount": 99000,
+                "categoryName": "쇼핑",
+                "categoryType": "선택 지출"
+            },
+            {
+                "id": 2,
+                "date": "2025-10-20",
+                "amount": 15000,
+                "categoryName": "교통",
+                "categoryType": "선택 지출"
+            },
+            {
+                "id": 1,
+                "date": "2025-10-19",
+                "amount": 24500,
+                "categoryName": "식비",
+                "categoryType": "필수 지출"
+            }
+        ],
+        "pageable": {
+            "pageNumber": 0,
+            "pageSize": 20,
+            "sort": {
+                "empty": true,
+                "sorted": false,
+                "unsorted": true
+            },
+            "offset": 0,
+            "paged": true,
+            "unpaged": false
+        },
+        "totalPages": 1,
+        "totalElements": 3,
+        "last": true,
+        "size": 20,
+        "number": 0,
+        "sort": {
+            "empty": true,
+            "sorted": false,
+            "unsorted": true
+        },
+        "numberOfElements": 3,
+        "first": true,
+        "empty": false
+    }
 }
 ```
