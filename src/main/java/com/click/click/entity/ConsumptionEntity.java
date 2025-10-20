@@ -11,11 +11,11 @@ public class ConsumptionEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // FK(users.id) — 기존 UserEntity 사용
+
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
-    // FK(categories.id)
+
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
