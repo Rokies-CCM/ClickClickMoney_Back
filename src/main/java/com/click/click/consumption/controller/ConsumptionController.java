@@ -1,9 +1,9 @@
-package com.click.click.controller;
+package com.click.click.consumption.controller;
 
-import com.click.click.dto.ConsumptionDTO;
-import com.click.click.dto.ConsumptionSearchDTO;
+import com.click.click.consumption.dto.ConsumptionDTO;
+import com.click.click.consumption.dto.ConsumptionSearchDTO;
 import com.click.click.util.ApiResponse;
-import com.click.click.service.ConsumptionService;
+import com.click.click.consumption.service.ConsumptionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -1,8 +1,9 @@
-package com.click.click.controller;
+package com.click.click.user.controller;
 
 
-import com.click.click.dto.LoginDTO;
-import com.click.click.dto.RegisterDTO;
+import com.click.click.user.dto.LoginDTO;
+import com.click.click.user.dto.RegisterDTO;
+import com.click.click.user.service.AuthService;
 import com.click.click.util.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
 
-    private final com.click.click.service.AuthService authService;
+    private final AuthService authService;
 
 
     @PostMapping("/register")

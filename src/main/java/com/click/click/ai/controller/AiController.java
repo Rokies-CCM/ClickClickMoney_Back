@@ -1,6 +1,6 @@
-package com.click.click.controller;
+package com.click.click.ai.controller;
 
-import com.click.click.dto.ConsumptionDTO;
+import com.click.click.consumption.dto.ConsumptionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;

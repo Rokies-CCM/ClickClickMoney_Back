@@ -1,9 +1,9 @@
-package com.click.click.service;
+package com.click.click.user.service;
 
-import com.click.click.dto.LoginDTO;
-import com.click.click.dto.RegisterDTO;
-import com.click.click.entity.UserEntity;
-import com.click.click.repository.UserRepository;
+import com.click.click.user.dto.LoginDTO;
+import com.click.click.user.dto.RegisterDTO;
+import com.click.click.user.entity.UserEntity;
+import com.click.click.user.repository.UserRepository;
 import com.click.click.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;

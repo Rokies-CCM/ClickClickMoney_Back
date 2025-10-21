@@ -1,4 +1,4 @@
-package com.click.click.dto;
+package com.click.click.user.dto;
 
 
 import jakarta.validation.constraints.NotBlank;

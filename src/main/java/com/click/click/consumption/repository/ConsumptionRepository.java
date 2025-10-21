@@ -1,9 +1,9 @@
-package com.click.click.repository;
+package com.click.click.consumption.repository;
 
 
-import com.click.click.dto.ConsumptionSearchDTO;
-import com.click.click.dto.ConsumptionSummaryDTO;
-import com.click.click.entity.ConsumptionEntity;
+import com.click.click.consumption.dto.ConsumptionSearchDTO;
+import com.click.click.consumption.dto.ConsumptionSummaryDTO;
+import com.click.click.consumption.entity.ConsumptionEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
@@ -15,7 +15,7 @@ import java.util.List;
 public interface ConsumptionRepository extends JpaRepository<ConsumptionEntity, Long> {
 
     @Query(value = """
-        select new com.click.click.dto.ConsumptionSearchDTO(
+        select new com.click.click.consumption.dto.ConsumptionSearchDTO(
             e.id, e.date, e.amount, c.name, c.type
         )
         from ConsumptionEntity e
@@ -42,7 +42,7 @@ public interface ConsumptionRepository extends JpaRepository<ConsumptionEntity, 
     );
 
     @Query("""
-        select new com.click.click.dto.ConsumptionSummaryDTO(
+        select new com.click.click.consumption.dto.ConsumptionSummaryDTO(
             c.name, sum(e.amount)
         )
         from ConsumptionEntity e

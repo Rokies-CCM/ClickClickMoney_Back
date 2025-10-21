@@ -1,7 +1,7 @@
-package com.click.click.repository;
+package com.click.click.user.repository;
 
 
-import com.click.click.entity.UserEntity;
+import com.click.click.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

@@ -1,5 +1,5 @@
 // src/main/java/com/click/click/dto/ConsumptionSummaryDTO.java
-package com.click.click.dto;
+package com.click.click.consumption.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

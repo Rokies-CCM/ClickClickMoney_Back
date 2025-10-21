@@ -1,4 +1,4 @@
-package com.click.click.entity;
+package com.click.click.consumption.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

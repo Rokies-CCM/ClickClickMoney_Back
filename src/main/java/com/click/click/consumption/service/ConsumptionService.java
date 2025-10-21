@@ -1,14 +1,14 @@
-package com.click.click.service;
+package com.click.click.consumption.service;
 
-import com.click.click.dto.ConsumptionDTO;
-import com.click.click.dto.ConsumptionSearchDTO;
-import com.click.click.dto.ConsumptionSummaryDTO;
-import com.click.click.entity.CategoryEntity;
-import com.click.click.entity.ConsumptionEntity;
-import com.click.click.entity.UserEntity;
-import com.click.click.repository.CategoryRepository;
-import com.click.click.repository.ConsumptionRepository;
-import com.click.click.repository.UserRepository;
+import com.click.click.consumption.dto.ConsumptionDTO;
+import com.click.click.consumption.dto.ConsumptionSearchDTO;
+import com.click.click.consumption.dto.ConsumptionSummaryDTO;
+import com.click.click.consumption.entity.CategoryEntity;
+import com.click.click.consumption.entity.ConsumptionEntity;
+import com.click.click.user.entity.UserEntity;
+import com.click.click.consumption.repository.CategoryRepository;
+import com.click.click.consumption.repository.ConsumptionRepository;
+import com.click.click.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

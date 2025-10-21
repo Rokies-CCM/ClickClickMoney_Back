@@ -1,6 +1,6 @@
-package com.click.click.repository;
+package com.click.click.consumption.repository;
 
-import com.click.click.entity.CategoryEntity;
+import com.click.click.consumption.entity.CategoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

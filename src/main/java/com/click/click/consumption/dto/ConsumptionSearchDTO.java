@@ -1,4 +1,4 @@
-package com.click.click.dto;
+package com.click.click.consumption.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;

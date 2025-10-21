@@ -1,4 +1,4 @@
-package com.click.click.config;
+package com.click.click.ai.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

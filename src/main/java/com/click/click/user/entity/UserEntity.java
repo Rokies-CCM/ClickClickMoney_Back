@@ -1,4 +1,4 @@
-package com.click.click.entity;
+package com.click.click.user.entity;
 
 
 import jakarta.persistence.*;
