@@ -1,9 +1,11 @@
 package com.click.click.budget.controller;
 
 
+import com.click.click.budget.dto.BudgetDTO;
 import com.click.click.budget.entity.BudgetEntity;
 import com.click.click.budget.service.BudgetService;
 import com.click.click.util.ApiResponse;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -21,21 +23,16 @@ public class BudgetController {
     private final BudgetService budgetService;
 
     @PostMapping
-    public ApiResponse<BudgetEntity> upsert(
-            @RequestParam
-            @DateTimeFormat(pattern = "yyyy-MM")
-            YearMonth month,
-
-            @RequestParam
-            @NotBlank
-            String category,
-
-            @RequestParam
-            @Min(0)
-            long amount
-    ) {
-        BudgetEntity saved = budgetService.upsert(month, category, amount);
-        return ApiResponse.ok(saved);
+    public ApiResponse<BudgetDTO.Response> upsert(@Valid @RequestBody BudgetDTO.Request body) {
+        BudgetEntity saved = budgetService.upsert(
+                body.getMonth(), body.getCategory(), body.getAmount()
+        );
+        return ApiResponse.ok(new BudgetDTO.Response(
+                saved.getId().longValue(),
+                saved.getYearMonth().toString().substring(0, 7),
+                saved.getCategory().getName(),
+                saved.getAmount()
+        ));
     }
 
     @GetMapping

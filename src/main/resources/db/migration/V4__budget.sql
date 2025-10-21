@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `budget` (
   `id`           INT PRIMARY KEY AUTO_INCREMENT,
   `user_id`      BIGINT      NOT NULL,
-  `year_month`   DATE  NOT NULL,
+  `budget_month`   DATE  NOT NULL,
   `category_id`  BIGINT         NOT NULL,
   `amount`       BIGINT      NOT NULL,
 
@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS `budget` (
     FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`)
     ON DELETE RESTRICT ON UPDATE CASCADE,
 
-  KEY `idx_budget_user_month` (`user_id`, `year_month`)
+  KEY `idx_budget_user_month` (`user_id`, `budget_month`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -23,7 +23,7 @@ public class BudgetEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @Column(name = "year_month", nullable = false)
+    @Column(name = "budget_month", nullable = false)
     private LocalDate yearMonth;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
