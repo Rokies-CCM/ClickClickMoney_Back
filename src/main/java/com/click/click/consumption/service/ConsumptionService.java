@@ -97,4 +97,43 @@ public class ConsumptionService {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("인증 사용자 정보를 찾을 수 없습니다."));
     }
+
+    @Transactional
+    public void update(Long id, LocalDate date, String category, Long amount) {
+        UserEntity user = currentUser();
+        ConsumptionEntity entity = consumptionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 소비 내역입니다. id=" + id));
+
+        if (!entity.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("해당 소비 내역에 대한 수정 권한이 없습니다.");
+        }
+
+        if (date != null) {
+            entity.setDate(date);
+        }
+        if (category != null && !category.isBlank()) {
+            String name = category.trim();
+            CategoryEntity cat = categoryRepository.findByName(name)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리입니다. name=" + name));
+            entity.setCategory(cat);
+        }
+        if (amount != null) {
+            if (amount < 0) throw new IllegalArgumentException("금액은 0 이상이어야 합니다.");
+            entity.setAmount(amount);
+        }
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        UserEntity user = currentUser();
+
+        ConsumptionEntity entity = consumptionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 소비 내역입니다. id=" + id));
+
+        if (!entity.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("해당 소비 내역에 대한 삭제 권한이 없습니다.");
+        }
+
+        consumptionRepository.delete(entity);
+    }
 }

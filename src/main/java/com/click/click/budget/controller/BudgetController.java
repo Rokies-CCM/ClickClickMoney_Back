@@ -27,38 +27,38 @@ public class BudgetController {
         BudgetEntity saved = budgetService.upsert(
                 body.getMonth(), body.getCategory(), body.getAmount()
         );
-        return ApiResponse.ok(new BudgetDTO.Response(
-                saved.getId().longValue(),
-                saved.getYearMonth().toString().substring(0, 7),
-                saved.getCategory().getName(),
-                saved.getAmount()
-        ));
+        return ApiResponse.ok(toResponse(saved));
     }
 
     @GetMapping
-    public ApiResponse<List<BudgetEntity>> list(
-            @RequestParam
-            @DateTimeFormat(pattern = "yyyy-MM")
-            YearMonth month
-    ) {
-        return ApiResponse.ok(budgetService.findByMonth(month));
+    public ApiResponse<List<BudgetDTO.Response>> list(@RequestParam @DateTimeFormat(pattern = "yyyy-MM") YearMonth month) {
+        List<BudgetEntity> rows = budgetService.findByMonth(month);
+        List<BudgetDTO.Response> dto = rows.stream().map(this::toResponse).toList();
+        return ApiResponse.ok(dto);
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<BudgetEntity> updateAmount(
-            @PathVariable
-            Integer id,
-
-            @RequestParam
-            @Min(0)
-            long amount
+    public ApiResponse<BudgetDTO.Response> updateAmount(
+            @PathVariable Integer id,
+            @RequestParam @Min(0) long amount
     ) {
-        return ApiResponse.ok(budgetService.updateAmount(id, amount));
+        BudgetEntity updated = budgetService.updateAmount(id, amount);
+        return ApiResponse.ok(toResponse(updated));
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> delete(@PathVariable Integer id) {
+    public ApiResponse<String> delete(@PathVariable Integer id) {
         budgetService.delete(id);
-        return ApiResponse.ok(null);
+        return ApiResponse.ok("deleted");
+    }
+
+
+    private BudgetDTO.Response toResponse(BudgetEntity e) {
+        return new BudgetDTO.Response(
+                e.getId() != null ? e.getId().longValue() : null,
+                e.getYearMonth().toString().substring(0, 7),  // "yyyy-MM"
+                e.getCategory() != null ? e.getCategory().getName() : null,
+                e.getAmount()
+        );
     }
 }

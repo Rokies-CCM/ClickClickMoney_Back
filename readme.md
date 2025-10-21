@@ -112,3 +112,50 @@ GET /api/consumption/load
     }
 }
 ```
+
+PUT /api/consumptions/{consumption_id}
+```
+파라미터 추가
+/api/consumptions/1?date=2025-10-01&category=식비&amount=18000
+/api/consumptions/1?date=2025-10-01
+/api/consumptions/1?amount=22000
+/api/consumptions/1?category=교통
+```
+
+DELETE /api/consumptions/{consumption_id}
+```
+출력:
+{
+    "success": true,
+    "message": null,
+    "data": null
+}
+```
+
+
+POST /api/budgets
+```
+{
+  "month": "2025-10",
+  "category": "식비",
+  "amount": 100000
+}
+```
+
+
+GET /api/budgets?month={조회할 날짜}
+```
+파라미터 추가
+/api/budgets?month=2025-10
+    
+    
+출력:
+    {
+        "id": 1,
+        "month": "2025-10",
+        "category": "식비",
+        "amount": 100000
+    }
+```
+
+
