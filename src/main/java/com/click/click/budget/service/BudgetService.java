@@ -7,6 +7,7 @@ import com.click.click.consumption.repository.CategoryRepository;
 import com.click.click.user.entity.UserEntity;
 import com.click.click.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,17 +25,24 @@ public class BudgetService {
     private final UserRepository userRepository;
 
     private UserEntity currentUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByUsername(username)
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || auth.getName() == null) {
+            throw new IllegalStateException("인증 정보가 없습니다.");
+        }
+        return userRepository.findByUsername(auth.getName())
                 .orElseThrow(() -> new IllegalArgumentException("인증 사용자 정보를 찾을 수 없습니다."));
     }
 
     private LocalDate normalizeToFirstDay(YearMonth ym) {
-        return LocalDate.of(ym.getYear(), ym.getMonth(), 1);
+        return ym.atDay(1);
     }
 
     @Transactional
     public BudgetEntity upsert(YearMonth ym, String categoryName, long amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("예산 금액은 음수가 될 수 없습니다.");
+        }
+
         UserEntity user = currentUser();
         LocalDate firstDay = normalizeToFirstDay(ym);
 
@@ -43,7 +51,7 @@ public class BudgetService {
 
         BudgetEntity entity = budgetRepository
                 .findByUserAndYearMonthAndCategory(user, firstDay, category)
-                .orElse(BudgetEntity.builder()
+                .orElseGet(() -> BudgetEntity.builder()
                         .user(user)
                         .yearMonth(firstDay)
                         .category(category)
@@ -60,7 +68,6 @@ public class BudgetService {
         BudgetEntity entity = budgetRepository.findById(budgetId)
                 .orElseThrow(() -> new IllegalArgumentException("예산을 찾을 수 없습니다: " + budgetId));
 
-        // 본인 소유인지 검증
         if (!entity.getUser().getId().equals(user.getId())) {
             throw new IllegalArgumentException("삭제 권한이 없습니다.");
         }
@@ -76,9 +83,13 @@ public class BudgetService {
 
     @Transactional
     public BudgetEntity updateAmount(Integer budgetId, long amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("예산 금액은 음수가 될 수 없습니다.");
+        }
         UserEntity user = currentUser();
         BudgetEntity entity = budgetRepository.findById(budgetId)
                 .orElseThrow(() -> new IllegalArgumentException("예산을 찾을 수 없습니다: " + budgetId));
+
         if (!entity.getUser().getId().equals(user.getId())) {
             throw new IllegalArgumentException("수정 권한이 없습니다.");
         }

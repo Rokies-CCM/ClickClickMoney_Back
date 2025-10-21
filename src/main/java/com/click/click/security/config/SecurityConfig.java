@@ -25,7 +25,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/ai/**","/click/**", "/v3/api-docs/**", "/swagger-ui/**","/consumption/**").permitAll()
+                        .requestMatchers("/ai/**","/click/**", "/v3/api-docs/**", "/swagger-ui/**","/consumption/**","/budgets").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

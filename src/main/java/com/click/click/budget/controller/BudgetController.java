@@ -22,9 +22,17 @@ public class BudgetController {
 
     @PostMapping
     public ApiResponse<BudgetEntity> upsert(
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM") YearMonth month,
-            @RequestParam @NotBlank String category,
-            @RequestParam @Min(0) long amount
+            @RequestParam
+            @DateTimeFormat(pattern = "yyyy-MM")
+            YearMonth month,
+
+            @RequestParam
+            @NotBlank
+            String category,
+
+            @RequestParam
+            @Min(0)
+            long amount
     ) {
         BudgetEntity saved = budgetService.upsert(month, category, amount);
         return ApiResponse.ok(saved);
@@ -32,15 +40,21 @@ public class BudgetController {
 
     @GetMapping
     public ApiResponse<List<BudgetEntity>> list(
-            @RequestParam @DateTimeFormat(pattern = "yyyy-MM") YearMonth month
+            @RequestParam
+            @DateTimeFormat(pattern = "yyyy-MM")
+            YearMonth month
     ) {
         return ApiResponse.ok(budgetService.findByMonth(month));
     }
 
     @PutMapping("/{id}")
     public ApiResponse<BudgetEntity> updateAmount(
-            @PathVariable Integer id,
-            @RequestParam @Min(0) long amount
+            @PathVariable
+            Integer id,
+
+            @RequestParam
+            @Min(0)
+            long amount
     ) {
         return ApiResponse.ok(budgetService.updateAmount(id, amount));
     }
