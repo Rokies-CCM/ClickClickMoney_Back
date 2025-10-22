@@ -25,20 +25,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // 컨텍스트패스(/api)는 자동으로 제외된 경로 기준
-                        .requestMatchers(
-                                "/ai/**",
-                                "/click/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui/**",
-                                "/consumption/**",
-                                "/budgets/**",
-                                "/auth/**"
-                        ).permitAll()
+                        .requestMatchers("/ai/**","/click/**", "/v3/api-docs/**", "/swagger-ui/**",
+                                "/consumption/**","/budgets","/budgets/**","/memo/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
+        // (선택) CORS 설정을 CorsConfig에서 이미 했다면 .cors(Customizer.withDefaults()) 추가 가능
         return http.build();
     }
 
@@ -46,4 +39,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

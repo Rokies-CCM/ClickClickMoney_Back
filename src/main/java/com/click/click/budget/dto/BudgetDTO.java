@@ -20,9 +20,6 @@ public class BudgetDTO {
         @JsonFormat(pattern = "yyyy-MM")
         private java.time.YearMonth month;
 
-        @NotBlank
-        private String category;
-
         @NotNull
         @PositiveOrZero
         private Long amount;
@@ -34,7 +31,6 @@ public class BudgetDTO {
     public static class Response {
         private Long id;
         private String month;
-        private String category;
         private Long amount;
     }
 }

@@ -1,7 +1,6 @@
 package com.click.click.budget.entity;
 
 
-import com.click.click.consumption.entity.CategoryEntity;
 import com.click.click.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,11 +23,7 @@ public class BudgetEntity {
     private UserEntity user;
 
     @Column(name = "budget_month", nullable = false)
-    private LocalDate yearMonth;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "category_id")
-    private CategoryEntity category;
+    private LocalDate budgetMonth;
 
     @Column(nullable = false)
     private Long amount;

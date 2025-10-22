@@ -11,9 +11,7 @@ import java.util.Optional;
 
 public interface BudgetRepository extends JpaRepository<BudgetEntity, Integer> {
 
-    Optional<BudgetEntity> findByUserAndYearMonthAndCategory(UserEntity user,
-                                                             LocalDate yearMonth,
-                                                             CategoryEntity category);
+    Optional<BudgetEntity> findByUserAndBudgetMonth(UserEntity user, LocalDate budgetMonth);
 
-    List<BudgetEntity> findByUserAndYearMonth(UserEntity user, LocalDate yearMonth);
+    List<BudgetEntity> findAllByUserAndBudgetMonth(UserEntity user, LocalDate budgetMonth);
 }
