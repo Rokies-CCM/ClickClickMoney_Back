@@ -138,7 +138,6 @@ POST /api/budgets
 ```
 {
   "month": "2025-10",
-  "category": "식비",
   "amount": 100000
 }
 ```
