@@ -28,7 +28,7 @@ public class SecurityConfig {
                         // 컨텍스트패스(/api)는 자동으로 제외된 경로 기준
                         .requestMatchers(
                                 "/ai/**","/click/**", "/v3/api-docs/**", "/swagger-ui/**",
-                                "/consumption/**","/budgets","/budgets/**","/memo/**"
+                                "/consumption/**","/budgets","/budgets/**","/memo/**","/consumptions/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
