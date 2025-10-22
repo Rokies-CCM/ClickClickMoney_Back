@@ -38,7 +38,7 @@ public class BudgetService {
     }
 
     @Transactional
-    public BudgetEntity upsert(YearMonth ym, String categoryName, long amount) {
+    public BudgetEntity upsert(YearMonth ym, long amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("예산 금액은 음수가 될 수 없습니다.");
         }
@@ -46,15 +46,11 @@ public class BudgetService {
         UserEntity user = currentUser();
         LocalDate firstDay = normalizeToFirstDay(ym);
 
-        CategoryEntity category = categoryRepository.findByName(categoryName)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 카테고리: " + categoryName));
-
         BudgetEntity entity = budgetRepository
-                .findByUserAndYearMonthAndCategory(user, firstDay, category)
+                .findByUserAndBudgetMonth(user, firstDay )
                 .orElseGet(() -> BudgetEntity.builder()
                         .user(user)
-                        .yearMonth(firstDay)
-                        .category(category)
+                        .budgetMonth(firstDay)
                         .amount(0L)
                         .build());
 
@@ -78,7 +74,7 @@ public class BudgetService {
     public List<BudgetEntity> findByMonth(YearMonth ym) {
         UserEntity user = currentUser();
         LocalDate firstDay = normalizeToFirstDay(ym);
-        return budgetRepository.findByUserAndYearMonth(user, firstDay);
+        return budgetRepository.findAllByUserAndBudgetMonth(user, firstDay);
     }
 
     @Transactional

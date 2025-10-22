@@ -25,7 +25,7 @@ public class BudgetController {
     @PostMapping
     public ApiResponse<BudgetDTO.Response> upsert(@Valid @RequestBody BudgetDTO.Request body) {
         BudgetEntity saved = budgetService.upsert(
-                body.getMonth(), body.getCategory(), body.getAmount()
+                body.getMonth(), body.getAmount()
         );
         return ApiResponse.ok(toResponse(saved));
     }
@@ -56,8 +56,7 @@ public class BudgetController {
     private BudgetDTO.Response toResponse(BudgetEntity e) {
         return new BudgetDTO.Response(
                 e.getId() != null ? e.getId().longValue() : null,
-                e.getYearMonth().toString().substring(0, 7),  // "yyyy-MM"
-                e.getCategory() != null ? e.getCategory().getName() : null,
+                e.getBudgetMonth().toString().substring(0, 7),  // "yyyy-MM"
                 e.getAmount()
         );
     }
