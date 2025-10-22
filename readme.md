@@ -120,6 +120,7 @@ PUT /api/consumptions/{consumption_id}
 /api/consumptions/1?date=2025-10-01
 /api/consumptions/1?amount=22000
 /api/consumptions/1?category=교통
+/api/consumptions/1?category=1
 ```
 
 DELETE /api/consumptions/{consumption_id}
@@ -158,4 +159,30 @@ GET /api/budgets?month={조회할 날짜}
     }
 ```
 
+POST /api/memo/{consumption_id}
+```
+{
+  "value": "오늘 커피값"
+}
+```
 
+GET /api/memo/{consumption_id}
+```
+"data": [
+    {
+        "id": 2,
+        "consumptionId": 3,
+        "value": "오늘 커피값이랑랑 밥도"
+    }
+]
+```
+
+PUT /api/memo/{memo_id}
+```
+{
+  "value": "오늘 커피값이랑 밥도"
+}
+```
+
+DELETE /api/memo/{memo_id}
+(consumption 삭제시 memo도 함께 삭제)

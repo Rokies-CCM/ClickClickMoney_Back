@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 @Entity @Table(name = "consumption")
@@ -26,4 +28,7 @@ public class ConsumptionEntity {
 
     @Column(nullable = false)
     private Long amount;
+
+    @OneToMany(mappedBy = "consumption", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<MemoEntity> memos = new ArrayList<>();
 }
