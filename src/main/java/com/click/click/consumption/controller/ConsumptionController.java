@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/consumptions")
@@ -51,7 +52,7 @@ public class ConsumptionController {
         return ApiResponse.ok(PageResponse.from(data));
     }
 
-    /** ✅ 월(YYYY-MM) 기준 목록 페이지 조회 (프론트가 월을 넘길 때 편리) */
+    /** 월(YYYY-MM) 기준 목록 페이지 조회 (프론트가 월을 넘길 때 편리) */
     @GetMapping("/list-by-month")
     public ApiResponse<PageResponse<ConsumptionSearchDTO>> listByMonth(
             @RequestParam String yearMonth,
@@ -66,7 +67,7 @@ public class ConsumptionController {
         return ApiResponse.ok(PageResponse.from(data));
     }
 
-    /** ✅ 월(YYYY-MM) 대시보드 요약: 총지출/건수/카테고리 분포 */
+    /** 월(YYYY-MM) 대시보드 요약: 총지출/건수/카테고리 분포 (기존) */
     @GetMapping("/monthly")
     public ApiResponse<MonthlyDashboardDTO> monthly(
             @RequestParam String yearMonth
@@ -77,7 +78,20 @@ public class ConsumptionController {
         return ApiResponse.ok(consumptionService.getMonthlyDashboard(from, to));
     }
 
-    /** ✅ CSV 업로드 (multipart/form-data, file 필드) */
+    /** 요약 API (yearMonth 또는 year/month 둘 다 지원) */
+    @GetMapping("/summary")
+    public ApiResponse<MonthlyDashboardDTO> summary(
+            @RequestParam(required = false) String yearMonth,
+            @RequestParam(required = false) Integer year,
+            @RequestParam(required = false) Integer month
+    ) {
+        YearMonth ym = resolveYearMonth(yearMonth, year, month);
+        LocalDate from = ym.atDay(1);
+        LocalDate to = ym.atEndOfMonth();
+        return ApiResponse.ok(consumptionService.getMonthlyDashboard(from, to));
+    }
+
+    /** CSV 업로드 (multipart/form-data, file 필드) */
     @PostMapping(value = "/upload-csv", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ApiResponse<ConsumptionImportResultDTO> uploadCsv(@RequestPart("file") MultipartFile file) {
         return ApiResponse.ok(consumptionService.importCsv(file));
@@ -111,5 +125,17 @@ public class ConsumptionController {
     public ApiResponse<Void> delete(@PathVariable Long id) {
         consumptionService.delete(id);
         return ApiResponse.ok(null);
+    }
+
+    /* ---------- 내부 유틸 ---------- */
+    private static YearMonth resolveYearMonth(String yearMonth, Integer year, Integer month) {
+        if (yearMonth != null && !yearMonth.isBlank()) {
+            return YearMonth.parse(yearMonth.trim());
+        }
+        if (Objects.nonNull(year) && Objects.nonNull(month)) {
+            return YearMonth.of(year, month);
+        }
+        // 파라미터 없으면 현재 월
+        return YearMonth.now();
     }
 }

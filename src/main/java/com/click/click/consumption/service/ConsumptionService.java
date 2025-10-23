@@ -1,5 +1,7 @@
 package com.click.click.consumption.service;
 
+import com.click.click.budget.entity.BudgetEntity;
+import com.click.click.budget.repository.BudgetRepository;
 import com.click.click.consumption.dto.*;
 import com.click.click.consumption.entity.CategoryEntity;
 import com.click.click.consumption.entity.ConsumptionEntity;
@@ -25,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -36,6 +39,7 @@ public class ConsumptionService {
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final ConsumptionRepository consumptionRepository;
+    private final BudgetRepository budgetRepository; // 목표예산 합산을 위해 주입
 
     /* ======================== 단건/배열 저장(기존) ======================== */
     @Transactional
@@ -100,6 +104,7 @@ public class ConsumptionService {
         );
     }
 
+    /** 월간 대시보드(총액/건수/카테고리 분포/목표예산) */
     @Transactional(readOnly = true)
     public MonthlyDashboardDTO getMonthlyDashboard(LocalDate from, LocalDate to) {
         UserEntity user = currentUser();
@@ -113,6 +118,17 @@ public class ConsumptionService {
         List<ConsumptionSummaryDTO> breakdown =
                 consumptionRepository.summarizeByCategory(user.getId(), from, to, null);
 
+        // 해당 월 목표예산(여러 레코드가 있을 수 있어 합산)
+        YearMonth ym = YearMonth.of(from.getYear(), from.getMonth());
+        LocalDate firstDay = ym.atDay(1);
+        long targetBudget = budgetRepository
+                .findAllByUserAndBudgetMonth(user, firstDay)
+                .stream()
+                .map(BudgetEntity::getAmount)
+                .filter(Objects::nonNull)
+                .mapToLong(Long::longValue)
+                .sum();
+
         return MonthlyDashboardDTO.builder()
                 .from(from)
                 .to(to)
@@ -120,6 +136,7 @@ public class ConsumptionService {
                 .totalAmount(totalAmount)
                 .totalCount(totalCount)
                 .byCategory(breakdown)
+                .targetBudget(targetBudget) // 추가
                 .build();
     }
 

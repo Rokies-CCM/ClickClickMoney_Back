@@ -24,6 +24,9 @@ public class MonthlyDashboardDTO {
     private Long totalAmount;
     private Long totalCount;
 
-    // 카테고리 분포
+    // 해당 월 목표 예산(합산 결과)
+    private Long targetBudget;
+
+    // 카테고리 분포 (금액 기준)
     private List<ConsumptionSummaryDTO> byCategory;
 }
