@@ -25,13 +25,27 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/ai/**","/click/**", "/v3/api-docs/**", "/swagger-ui/**",
-                                "/consumption/**","/budgets","/budgets/**","/memo/**").permitAll()
+                        // 공개(무인증)
+                        .requestMatchers(
+                                "/ai/**",
+                                "/click/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/consumption/**",
+                                "/budgets", "/budgets/**",
+                                "/memo/**",
+                                "/auth/**",
+                                "/internal/**"        // 내부 서버-투-서버용(컨트롤러에서 키 검증)
+                        ).permitAll()
+
+                        // 미션 API는 반드시 인증 필요(명시적으로 선언)
+                        .requestMatchers("/missions/**").authenticated()
+
+                        // 그 외는 인증 필요 (예: /points/** 등)
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // (선택) CORS 설정을 CorsConfig에서 이미 했다면 .cors(Customizer.withDefaults()) 추가 가능
         return http.build();
     }
 
@@ -39,5 +53,4 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }
