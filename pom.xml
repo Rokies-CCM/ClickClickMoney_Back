@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
     <groupId>com.click</groupId>
-    <artifactId>com.click.click</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>com.click.click</name>
+    <artifactId>click</artifactId>
+    <version>0.0.3</version>
+    <name>click</name>
     <description>Spring Boot JWT Starter</description>
     <properties>
         <java.version>17</java.version>
